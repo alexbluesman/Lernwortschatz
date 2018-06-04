@@ -2,7 +2,7 @@
 
 DICTIONARY=/tmp/.dict.tmp
 
-MODE=2
+LANG="DE"
 
 rm -f $DICTIONARY
 
@@ -27,7 +27,19 @@ do
     val=$(( ( RANDOM % $lines )  + 1 ))
     line=`sed $val"q;d" $DICTIONARY`
 
-    word=`echo $line | cut -d '=' -f $MODE | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
+    if [ "$LANG" == "DE" ]; then
+        word1=`echo $line | cut -d '=' -f 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
+        word2=`echo $line | cut -d '=' -f 2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
+    else
+        word1=`echo $line | cut -d '=' -f 2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
+        word2=`echo $line | cut -d '=' -f 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
+    fi
 
-    read -n 1 -s -r -p "$word"
+    echo "$word1"
+    read -rsn1 input
+    if [ "$input" = "u" ]; then
+        echo "$word2"
+        read -rsn1
+    fi
+
 done
