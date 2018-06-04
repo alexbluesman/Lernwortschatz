@@ -111,7 +111,7 @@ hallo = здравствуйте
 heute = сегодня
 hier = здесь
 immer = всегда
-in - в
+in = в
 in der Nähe = в близи
 ja = да
 jetzt = сейчас
