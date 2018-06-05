@@ -1,15 +1,15 @@
-Länge
-Anpassungen
-Reihenfolge
-beschreibung
-Kundendienst
-vergeben
-Zahlfeld
-Leerzeich
-erfolgen
-Wert
-Defaultwert
-Umrechnung
-mittels
-Zählweis
-Ereignisspeicher
+Länge = Длина
+Anpassungen = Настройки
+Reihenfolge = Порядок
+Beschreibung = Описание
+Kundendienst = Обслуживание
+vergeben = предоставлять, отдавать
+Zahlfeld = Числовое поле
+Leerzeich = Пробел
+erfolgen = осуществляться
+Wert = Значение
+Defaultwert = Значение по умолчанию
+Umrechnung = Пересчёт, преобразование
+mittels = посредством, через
+Zählweis = Счётчик
+Ereignisspeicher = Хранилище событий
