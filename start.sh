@@ -1,45 +1,64 @@
+# Main trainer script
+#
+# Copyright (c) 2018, Alexander Smirnov
+
 #!/bin/bash
 
 DICTIONARY=/tmp/.dict.tmp
 
 LANG="DE"
 
-rm -f $DICTIONARY
+XTERM="xterm -fa 'Monospace' -fs 14 -e /bin/bash -e"
 
-while [ $# -gt 0 ]
-do
-    file="$1"
+generate_dict() {
+    rm -f $DICTIONARY
 
-    cat $file >> $DICTIONARY
+    while [ $# -gt 0 ]
+    do
+        file="$1"
 
-    shift
-done
+        echo "Adding: "$(basename $file)
 
-sed -i '/^\s*$/d' $DICTIONARY
+        cat $file >> $DICTIONARY
+        shift
+    done
 
-lines=$(wc -l $DICTIONARY | cut -d ' ' -f 1)
+    sed -i '/^\s*$/d' $DICTIONARY
+}
 
-echo $lines
+run_trainer() {
+    lines=$(wc -l $DICTIONARY | cut -d ' ' -f 1)
 
-while true;
-do
-    reset
-    val=$(( ( RANDOM % $lines )  + 1 ))
-    line=`sed $val"q;d" $DICTIONARY`
+    while true;
+    do
+        reset
+        val=$(( ( RANDOM % $lines )  + 1 ))
+        line=`sed $val"q;d" $DICTIONARY`
 
-    if [ "$LANG" == "DE" ]; then
-        word1=`echo $line | cut -d '=' -f 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
-        word2=`echo $line | cut -d '=' -f 2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
-    else
-        word1=`echo $line | cut -d '=' -f 2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
-        word2=`echo $line | cut -d '=' -f 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
-    fi
+        if [ "$LANG" == "DE" ]; then
+            word1=`echo $line | cut -d '=' -f 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
+            word2=`echo $line | cut -d '=' -f 2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
+        else
+            word1=`echo $line | cut -d '=' -f 2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
+            word2=`echo $line | cut -d '=' -f 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'`
+        fi
 
-    echo "$word1"
-    read -rsn1 input
-    if [ "$input" = "u" ]; then
-        echo "$word2"
-        read -rsn1
-    fi
+        echo "$word1"
+        read -rsn1 input
+        if [ "$input" = "u" ]; then
+            echo "$word2"
+            read -rsn1
+        fi
+    done
+}
 
-done
+if [ "$#" = "0" ]; then
+    run_trainer
+else
+    generate_dict "$@"
+
+    export LC_ALL="en_US.UTF-8"
+    $XTERM $0
+
+    rm $DICTIONARY
+fi
