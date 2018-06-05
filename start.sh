@@ -6,7 +6,7 @@
 
 DICTIONARY=/tmp/.dict.tmp
 
-LANG="DE"
+LANG="RU"
 
 XTERM="xterm -fa 'Monospace' -fs 14 -e /bin/bash -e"
 
@@ -57,8 +57,7 @@ if [ "$#" = "0" ]; then
 else
     generate_dict "$@"
 
-    export LC_ALL="en_US.UTF-8"
+    export LC_ALL="ru_RU.UTF-8"
     $XTERM $0
-
     rm $DICTIONARY
 fi
